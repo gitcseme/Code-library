@@ -3,10 +3,10 @@ using namespace std;
 
 int parent[1000], renk[1000];
 
-int find_set(int v) {
+int find_parent(int v) {
     if (v == parent[v])
         return v;
-    return parent[v] = find_set(parent[v]); // with path compression
+    return parent[v] = find_parent(parent[v]); // with path compression
 }
 
 void make_set(int v) {
@@ -15,8 +15,8 @@ void make_set(int v) {
 }
 
 void union_sets(int a, int b) {
-    a = find_set(a);
-    b = find_set(b);
+    a = find_parent(a);
+    b = find_parent(b);
     if (a != b) {
         if (renk[a] < renk[b])
             swap(a, b);
