@@ -1,81 +1,89 @@
 #include <bits/stdc++.h>
 #define FI freopen ("inp.txt", "r", stdin)
 #define FO freopen ("out.txt", "w", stdout)
+#define inf 1e18
 using namespace std;
 
-/********
-7 9
+/* source = 1 and destination = n
+
+5 6
 1 2 2
-1 3 4
-1 4 6
 2 5 5
+2 3 4
+1 4 1
+4 3 3
 3 5 1
-3 6 1
-4 6 1
-5 7 4
-6 7 3
-1
-*********/
+
+*/
 
 struct Node {
-    int value, dist;
-    bool vis;
-    vector <int> adj;
+    int value;
     Node() {}
-    Node (int v) {
-        value = v;
-        dist = 9999999;
-        vis = false;
+    Node(int val) {
+        value = val;
     }
 };
 
-map <int, Node> g;
+long long d[1000006];
+int parent[100010];
+vector <int> adj[100010];
+unordered_map <int, Node> g;
 map <pair<int, int>, int> edgeCost;
 
 bool operator < (Node a, Node b) {
-    return a.dist > b.dist;
+    return d[a.value] > d[b.value];
 }
 
-void Dijkstra (int src) {
+void Dijkstra(int src, int dest)
+{
     priority_queue <Node> q;
-    g[src].dist = 0;
+    d[src] = 0;
     q.push(g[src]);
 
     while (!q.empty()) {
         int u = q.top().value;
         q.pop();
 
-        cout << src << " " << u << " --> " << g[u].dist << "\n";
-
-        for (int v : g[u].adj) {
-            if (g[u].dist + edgeCost[{u, v}] < g[v].dist) {
-                g[v].dist = g[u].dist + edgeCost[{u, v}];
-            }
-            if (!g[v].vis) {
+        for (int v : adj[u]) {
+            if (d[u] + edgeCost[{u, v}] < d[v]) {
+                d[v] = d[u] + edgeCost[{u, v}];
                 q.push(g[v]);
-                g[v].vis = true;
+                parent[v] = u;
             }
         }
     }
 }
 
+void buildPath(int n) {
+    if (n != 1)
+        buildPath(parent[n]);
+    printf("%d ", n);
+}
+
 int main() {
     FI;
 
-    int n, relations, a, b, cost, src;
-    cin >> n >> relations;
+    int n, m, a, b, w;
+    scanf("%d %d", &n, &m);
     for (int i = 1; i <= n; ++i) g[i] = Node(i);
+    fill(d, d+n+5, inf);
 
-    for (int i = 1; i <= relations; ++i)
-    {
-        cin >> a >> b >> cost;
-        g[a].adj.push_back(b);
-        edgeCost[{a, b}] = cost;
+    while(m--) {
+        cin >> a >> b >> w;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+        edgeCost[{a, b}] = w;
+        edgeCost[{b, a}] = w;
     }
 
-    // call Dijkstra algorithm
-    cin >> src;
-    Dijkstra(src);
+    Dijkstra(1, n);
+
+    if (d[n] != inf) {
+        buildPath(n);
+        puts("");
+    }
+    else
+        puts("-1");
 
     return 0;
 }
