@@ -3,6 +3,15 @@
 #define FO freopen ("out.txt", "w", stdout)
 using namespace std;
 
+/*
+7 5
+1 4
+4 7
+3 5
+3 6
+5 6
+*/
+
 int g[1000];
 bool vis[1000];
 vector <int> adj[1000];
