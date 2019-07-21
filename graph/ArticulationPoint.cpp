@@ -25,7 +25,7 @@ void find_bridge(int u, int p)
     for (int v : adj[u]) {
         if (v == p) continue;
         if (d[v] == -1) {
-            ++childCount; // child which has no connection to other child is counted as a new child.
+            ++childCount; // An undiscovered child which has no connection to other child is counted as a new child.
             find_bridge(v, u);
             low[u] = min(low[u], low[v]); // Take update from v
         }
