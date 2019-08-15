@@ -2,7 +2,7 @@
 using namespace std;
 
 const double e = 2.71828182845904523536;
-const double pi = 3.141592654;
+const double pi = 3.141592653589793239;
 
 long long findDigits(int n)
 {
