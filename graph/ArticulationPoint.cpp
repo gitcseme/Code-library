@@ -14,33 +14,30 @@ using namespace std;
 */
 const int mx = 1000;
 vector<int> adj[mx];
-int d[mx], low[mx], timer = 0, childCount;
+int d[mx], low[mx], timer = 0;
 
 set<int> AP;
 
 void find_bridge(int u, int p)
 {
     low[u] = d[u] = timer++;
-    childCount = 0;
+    int childCount = 0;
     for (int v : adj[u]) {
         if (v == p) continue;
-        if (d[v] == -1) {
-            ++childCount; // An undiscovered child which has no connection to other child is counted as a new child.
-            find_bridge(v, u);
-            low[u] = min(low[u], low[v]); // Take update from v
-        }
-        else { //Back edge encountered.
+        if (d[v] != -1) { // Back edge
             low[u] = min(low[u], d[v]);
         }
-
-        if (low[v] >= d[u]) {
-            if (p == -1) { // root node.
-                if (childCount >1)
-                    AP.insert(u);
-            }
-            else
+        else {
+            find_bridge(v, u);
+            low[u] = min(low[u], low[v]); // Take update
+            if (low[v] >= d[u] && p != -1) {
                 AP.insert(u);
+            }
+            ++childCount;
         }
+    }
+    if (p == -1 && childCount > 1) {
+        AP.insert(u);
     }
 }
 
