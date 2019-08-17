@@ -20,21 +20,20 @@ int d[mx], low[mx], timer = 0;
 
 vector<pair<int, int> > bridges;
 
-void find_bridge(int u, int p)
+void DFS(int u, int p)
 {
     low[u] = d[u] = timer++;
     for (int v : adj[u]) {
         if (v == p) continue;
-        if (d[v] == -1) {
-            find_bridge(v, u);
-            low[u] = min(low[u], low[v]); // Take update from v
-        }
-        else { //Back edge encountered.
+        if (d[v] != -1) {
             low[u] = min(low[u], d[v]);
         }
-
-        if (low[v] > d[u]) {
-            bridges.push_back(make_pair(u, v));
+        else {
+            DFS(v, u);
+            low[u] = min(low[u], low[v]);
+            if (low[v] > d[u]) {
+                bridges.push_back(make_pair(u, v));
+            }
         }
     }
 }
@@ -53,7 +52,7 @@ int main() {
 
     for (int u = 0; u < n; ++u) {
         if (d[u] == -1) {
-            find_bridge(u, -1);
+            DFS(u, -1);
         }
     }
 
