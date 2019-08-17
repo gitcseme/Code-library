@@ -18,7 +18,7 @@ int d[mx], low[mx], timer = 0;
 
 set<int> AP;
 
-void find_bridge(int u, int p)
+void DFS(int u, int p)
 {
     low[u] = d[u] = timer++;
     int childCount = 0;
@@ -28,7 +28,7 @@ void find_bridge(int u, int p)
             low[u] = min(low[u], d[v]);
         }
         else {
-            find_bridge(v, u);
+            DFS(v, u);
             low[u] = min(low[u], low[v]); // Take update
             if (low[v] >= d[u] && p != -1) {
                 AP.insert(u);
@@ -55,7 +55,7 @@ int main() {
 
     for (int u = 0; u < n; ++u) {
         if (d[u] == -1) {
-            find_bridge(u, -1);
+            DFS(u, -1);
         }
     }
 
