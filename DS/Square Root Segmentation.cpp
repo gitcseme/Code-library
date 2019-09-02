@@ -22,15 +22,24 @@ int main() {
     int l, r;
     while(cin >> l >> r) {
         int  sum = 0;
-        for (int i = l; i <= r; ) {
-            if (i%len == 0 && i + len - 1 <= r) {
-                sum += b[i / len]; // Complete block.
-                i += len;
-            }
-            else { // left or right incomplete block.
+        int c_l = l / len, c_r = r / len;
+
+        if (c_l == c_r) {
+            for (int i = l; i <= r; ++i)
                 sum += a[i];
-                ++i;
-            }
+        }
+        else { // k-th block starts at (length * k) and ends at (length *(k+1) - 1)
+            // Left partial block
+            for (int i = l, block_end = len*(c_l + 1) - 1; i <= block_end; ++i)
+                sum += a[i];
+
+            // Middle complete block
+            for (int i = c_l + 1; i <= c_r - 1; ++i)
+                sum += b[i];
+
+            // Right partial block
+            for (int i = (len * c_r); i <= r; ++i)
+                sum += a[i];
         }
         cout << sum << "\n";
     }
