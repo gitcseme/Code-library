@@ -20,7 +20,7 @@ int main() {
 
         if (c_l == c_r) {
             for (int i = l; i <= r; ++i)
-                a[i] += value + a[i];
+                a[i] += value;
         }
         else { // k-th block starts at (length * k) and ends at (length *(k+1) - 1)
             // Left partial block
