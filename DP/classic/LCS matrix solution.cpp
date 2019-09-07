@@ -1,7 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const int mx = 3005;
+int dp[mx][mx];
+
 int main() {
+    //FI;
+
     int m, n;
     string a, b;
     cin >> a >> b;
@@ -9,9 +14,7 @@ int main() {
     b.insert(b.begin(), '@');
     m = a.size();
     n = b.size();
-
-    int dp[105][105];
-    for (int i = 0; i <= 100; ++i) dp[0][i] = dp[i][0] = 0;
+    for (int i = 0; i < mx; ++i) dp[0][i] = dp[i][0] = 0;
 
     for (int i = 1; i < m; ++i) {
         for (int j = 1; j < n; ++j) {
@@ -22,19 +25,19 @@ int main() {
         }
     }
 
-    cout << "LCS : " << dp[m-1][n-1] << "\n";
-
-    //path
+    // LCS
     int r = m-1, c = n-1;
-    while (r > 0 && c > 0) {
+    string lcs = "";
+    while(r > 0 && c > 0) {
         if (a[r] == b[c]) {
-            cout << a[r] << " ";
+            lcs += a[r];
             --r, --c;
         }
-        else if (dp[r-1][c] >= dp[r][c-1]) --r;
+        else if (dp[r-1][c] > dp[r][c-1]) --r;
         else --c;
     }
-
+    reverse(lcs.begin(), lcs.end());
+    printf("%s\n", lcs.c_str());
 
     return 0;
 }
