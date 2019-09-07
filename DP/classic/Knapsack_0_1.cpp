@@ -44,7 +44,7 @@ int knapsack(int i, int sack) {
     if (mem[i][sack] != -1) return mem[i][sack];
 
     int ans1 = knapsack(i-1, sack);
-    int ans2 = p[i] + knapsack(i-1, sack - w[i]);
+    int ans2 = p[i] + knapsack(i-1, sack - w[i]); // knapsack(i, sack-w[i]) for taking item i multiple times.
 
     if(ans1 > ans2) path[i][sack] = 1;
     else path[i][sack] = 2;
