@@ -17,3 +17,15 @@ int main() {
 
     return 0;
 }
+
+/* Modular Inverse
+
+Farmat's little theorem:
+a^(M-1) = 1 (mod M)
+
+=> a^(M-1) / a = 1/a (mod M)
+=> a^(M-2) = a^-1 (mod M)
+
+Hence, a^-1 = bignod ( a, M-2, M );
+
+*/
