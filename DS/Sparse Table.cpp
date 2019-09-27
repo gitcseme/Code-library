@@ -11,7 +11,7 @@ void build(int N, int K) {
 
     for (int j = 1; j <= K; ++j)
         for (int i = 0; i + (1 << j) <= N; ++i)
-            st[i][j] = min(st[i][j-1], st[i + (1 << (j-1))][j-1]); // F = min
+            st[i][j] = min(st[i][j-1], st[i + (1 << (j-1))][j-1]); // F = min. [2^j = 2^(j-1) U 2^(j-1)]
 }
 
 int find_range_min(int L, int R) {
