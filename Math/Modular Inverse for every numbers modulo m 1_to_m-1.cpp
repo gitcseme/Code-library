@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+// find inverse [1 - n]
 
 int main() {
     int m;
