@@ -47,7 +47,7 @@ void Dijkstra(int src, int dest)
         for (int v : adj[u]) {
             if (d[u] + edgeCost[{u, v}] < d[v]) {
                 d[v] = d[u] + edgeCost[{u, v}];
-                q.push(g[v]);
+                q.push(g[v]); // push g[v] even if v is already in q, it will update chieldren of v properly
                 parent[v] = u;
             }
         }
